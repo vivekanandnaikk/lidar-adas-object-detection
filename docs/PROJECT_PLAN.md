@@ -1,56 +1,36 @@
-# Project plan
+# Project plan and reproducibility checklist
 
-This repository is an initial project foundation. Use this checklist to turn the described project into a working, reviewable, reproducible implementation without implying that unverified capabilities are already complete.
+This repository is currently a documentation foundation. The checklist below is a roadmap, not a statement that these implementation tasks are complete.
 
-## 1. Define the experiment
+## Establish provenance and environment
 
-- [ ] Select the LiDAR sensor or dataset and document its license and access instructions.
-- [ ] Identify available camera data and calibration files if RGB projection is required.
-- [ ] Specify coordinate frames, axis conventions, units, point fields, and timestamp handling.
-- [ ] Choose the detection approach and record its citation, version, configuration, and checkpoint source.
-- [ ] Define the target platform and what “real-time” means (frame rate or latency, and measurement scope).
-- [ ] Define the localization metric, baseline, and exact method behind the reported 30% improvement.
+- [ ] Add the internship source/notebook that was actually used, with origin and revision.
+- [ ] Record upstream SFA3D commit, modifications, and attribution.
+- [ ] Confirm Python, PyTorch, torchvision, OpenCV, NumPy, CUDA, and GPU versions from the working environment.
+- [ ] Record checkpoint origin, filename, checksum, and usage terms.
+- [ ] Document KITTI subset, split, sequence IDs, access requirements, and local directory layout.
 
-## 2. Implement in small, testable stages
+## Make the pipeline inspectable
 
-1. Add data loading and validation with a small, redistributable or synthetic fixture.
-2. Add preprocessing with documented parameters and unit tests.
-3. Add detector integration and a reproducible inference entry point.
-4. Add coordinate transforms and detection output schema.
-5. Add BEV visualization and tests for geometry/coordinate conventions.
-6. Add calibrated RGB projection visualization where corresponding camera images and calibration are available.
-7. Add evaluation scripts and benchmark metadata; do not silently compare incompatible splits or metrics.
+- [ ] Identify actual entry points and supported arguments.
+- [ ] Document point-cloud schema, coordinate frames, units, filtering, and BEV parameters.
+- [ ] Document calibration matrix conventions and projection behavior.
+- [ ] Add tests for transforms, BEV encoding, detection decoding, and output writing where applicable.
+- [ ] Include small synthetic or redistribution-cleared fixtures; do not add restricted dataset data.
+- [ ] Add representative output images/video only when they are actual outputs and publishing rights are clear.
 
-## 3. Suggested layout as code is added
+## Reproduce results
 
-```text
-src/lidar_adas/       reusable pipeline modules
-configs/              versioned experiment settings
-scripts/               explicit command-line entry points
-tests/                 unit and integration tests
-examples/              small, redistributable examples
-outputs/               local generated results (ignored by Git)
-docs/                  design, data, and benchmark documentation
-```
+- [ ] Record experiment code revision and exact command/configuration.
+- [ ] Record GPU, CPU, RAM, driver, CUDA, and software versions.
+- [ ] Define FPS timing boundaries, warm-up, sequence, and aggregation; repeat the GTX 1080 Ti result before presenting it as reproduced.
+- [ ] Define the localization metric, baseline, evaluation split, sample count, and calculation before validating the 30% claim.
+- [ ] Report failure cases, especially sparse/distant and occluded objects.
 
-Keep large datasets, model weights, captured sensor recordings, and generated outputs outside ordinary Git history unless their licensing, size, and distribution are explicitly addressed. Add data acquisition instructions instead of uploading material without permission.
+## Release responsibly
 
-## 4. Benchmark evidence for the 30% claim
-
-Before presenting the reported improvement as a verified result, publish:
-
-- Baseline method and exact metric definition/formula.
-- Dataset, sequences, split, sample count, and any filtering.
-- Baseline and proposed-system results under identical conditions.
-- Hardware, software versions, configurations, and commands to reproduce.
-- Aggregation method and relevant limitations or failure cases.
-
-If the original experiment details are unavailable, rerun the comparison and label the new results clearly; do not invent missing methodology.
-
-## 5. Release readiness
-
-- [ ] Add install/run instructions that work from a clean environment.
-- [ ] Add tests and automated checks appropriate to the actual implementation.
-- [ ] Document known limitations and supported data formats.
-- [ ] Choose a license before inviting reuse.
-- [ ] Verify that example data, images, model weights, and dependencies can legally be distributed.
+- [ ] Review KITTI, checkpoint, dependency, and third-party code terms.
+- [ ] Choose a license for original code only after checking incorporated material and permissions.
+- [ ] Add tested setup and run instructions for local and Colab environments.
+- [ ] Add automated tests/CI that do not download restricted datasets or large checkpoints.
+- [ ] Keep datasets, credentials, private captures, model weights, and generated outputs outside Git unless authorized.
